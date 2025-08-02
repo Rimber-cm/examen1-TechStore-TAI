@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Marca extends Model
+class Producto extends Model
 {
     use HasFactory;
 
     // Campos que pueden ser asignados masivamente
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'precio', 'marca_id'];
 
     /**
-     * Relación: una marca tiene muchos productos.
+     * Relación: un producto pertenece a una marca.
      */
-    public function productos()
+    public function marca()
     {
-        return $this->hasMany(Producto::class);
+        return $this->belongsTo(Marca::class);
     }
 }
