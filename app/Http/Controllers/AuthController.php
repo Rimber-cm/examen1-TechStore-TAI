@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User; // Importa el modelo de usuario
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -18,19 +18,41 @@ class AuthController extends Controller
             'password' => 'required|string|min:8'
         ]);
 
-        // Crear el nuevo usuario
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password), // ¡Importante! Encriptar la contraseña
+            'password' => Hash::make($request->password),
         ]);
         
-        // Crear un token de autenticación para el usuario
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        // Devolver una respuesta JSON con el token
         return response()->json([
             'message' => 'Usuario registrado con éxito',
+            'user' => $user,
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ]);
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'Credenciales incorrectas'
+            ], 401);
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Inicio de sesión exitoso',
             'user' => $user,
             'access_token' => $token,
             'token_type' => 'Bearer',
