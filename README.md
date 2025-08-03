@@ -6,6 +6,13 @@ API para gestión de productos y marcas con autenticación JWT.
 
 ## 📸 Evidencias Visuales
 
+📌 Requisitos Técnicos
+PHP 8.1+
+
+MySQL 8.0+
+
+Postman (para pruebas)
+
 ### 1. Gestión del Proyecto
 ![Tablero Kanban](/screenshots/trello.jpg)
 
@@ -37,3 +44,23 @@ php artisan migrate
 
 # Iniciar servidor
 php artisan serve
+
+
+📋 Endpoints
+Autenticación
+POST /api/register → Registro de usuarios
+
+POST /api/login → Inicio de sesión
+
+Marcas (Requieren autenticación)
+GET /api/brands → Listar todas
+
+POST /api/brands → Crear nueva
+
+Productos (Requieren autenticación)
+GET /api/products → Listar con relación a marcas
+
+POST /api/products → Crear con brand_id
+
+📜 Licencia
+MIT © 2023 - TechStore-TAI
