@@ -7,15 +7,15 @@ API para gestión de productos y marcas con autenticación JWT.
 ## 📸 Evidencias Visuales
 
 ### 1. Gestión del Proyecto
-![Tablero Kanban](/screenshots/project-board.png)
+![Tablero Kanban](/screenshots/trello.jpg)
 
 ### 2. Pruebas en Postman
 | Autenticación | Marcas | Productos |
 |---------------|--------|-----------|
-| ![Auth](/screenshots/postman-auth.png) | ![Brands](/screenshots/postman-brands.png) | ![Products](/screenshots/postman-products.png) |
+| ![Auth](/screenshots/registrousuarios.jpg) | ![Brands](/screenshots/creamarca.jpg) | ![Products](/screenshots/crearproducto.jpg) |
 
 ### 3. Esquema de Base de Datos
-![Diagrama BD](/screenshots/db-schema.png)
+![Diagrama BD](/screenshots/db.jpg)
 
 ---
 
@@ -23,7 +23,7 @@ API para gestión de productos y marcas con autenticación JWT.
 
 ```bash
 # Clonar repositorio
-git clone https://github.com/tu-usuario/examen1-TechStore-TAI.git
+git clone https://github.com/Rimber-cm/examen1-TechStore-TAI.git
 cd examen1-TechStore-TAI
 
 # Instalar dependencias
