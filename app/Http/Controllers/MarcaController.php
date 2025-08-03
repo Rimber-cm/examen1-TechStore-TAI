@@ -2,63 +2,63 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Marca;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class MarcaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de todas las marcas.
      */
     public function index()
     {
-        //
+        return response()->json(Marca::all());
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Almacena una nueva marca en la base de datos.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|unique:marcas,nombre'
+        ]);
+
+        $marca = Marca::create($request->all());
+
+        return response()->json($marca, Response::HTTP_CREATED);
     }
 
     /**
-     * Display the specified resource.
+     * Muestra una marca específica.
      */
-    public function show(string $id)
+    public function show(Marca $marca)
     {
-        //
+        return response()->json($marca);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Actualiza una marca existente.
      */
-    public function edit(string $id)
+    public function update(Request $request, Marca $marca)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|unique:marcas,nombre,' . $marca->id
+        ]);
+
+        $marca->update($request->all());
+
+        return response()->json($marca);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Elimina una marca de la base de datos.
      */
-    public function update(Request $request, string $id)
+    public function destroy(Marca $marca)
     {
-        //
-    }
+        $marca->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
