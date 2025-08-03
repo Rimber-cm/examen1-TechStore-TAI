@@ -2,63 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ProductoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Muestra una lista de todos los productos.
      */
     public function index()
     {
-        //
+        // Devolvemos todos los productos junto con su marca asociada
+        return response()->json(Producto::with('marca')->get());
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Almacena un nuevo producto.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string',
+            'precio' => 'required|numeric|min:0',
+            'marca_id' => 'required|exists:marcas,id'
+        ]);
+
+        $producto = Producto::create($request->all());
+
+        return response()->json($producto, Response::HTTP_CREATED);
     }
 
     /**
-     * Display the specified resource.
+     * Muestra un producto específico.
      */
-    public function show(string $id)
+    public function show(Producto $producto)
     {
-        //
+        // Devolvemos un producto específico junto con su marca
+        return response()->json($producto->load('marca'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Actualiza un producto existente.
      */
-    public function edit(string $id)
+    public function update(Request $request, Producto $producto)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string',
+            'precio' => 'required|numeric|min:0',
+            'marca_id' => 'required|exists:marcas,id'
+        ]);
+
+        $producto->update($request->all());
+
+        return response()->json($producto);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Elimina un producto.
      */
-    public function update(Request $request, string $id)
+    public function destroy(Producto $producto)
     {
-        //
-    }
+        $producto->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }
